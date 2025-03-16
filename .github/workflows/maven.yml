@@ -1,0 +1,25 @@
+name: Maven Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Uses GitHub-hosted runner
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Clones the repo
+
+      - name: Set Up Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'  # Use 'temurin' (Eclipse Adoptium)
+          java-version: '17'  # Change this according to your project
+          cache: 'maven'  # Enables dependency caching
+
+      - name: Verify Java and Maven
+        run: |
+          java -version  # Check installed Java version
+          mvn -version   # Check installed Maven version
+
+      - name: Run Maven Build
+        run: mvn clean install
